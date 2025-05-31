@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checklist de mantenimiento del parque vehicular</title>
+    <style>
+        /* Estilos Generales */
+        body {
+            font-family: "Book Antiqua", Georgia, serif; /* Tipografía solicitada */
+            background-color: #f0f8ff; /* Fondo blanco sutil con un toque de turquesa */
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background-color: #ffffff; /* Fondo blanco para el contenedor principal */
+            border-radius: 15px; /* Bordes redondeados */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+            padding: 30px;
+            max-width: 900px; /* Ancho máximo para el formulario */
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Encabezado */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e0f7fa; /* Línea divisoria turquesa discreta */
+            padding-bottom: 20px;
+        }
+
+        header img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 10px; /* Bordes redondeados para el logo */
+            margin-bottom: 15px;
+        }
+
+        header h1 {
+            color: #008080; /* Color turquesa para el título */
+            font-size: 2.5em;
+            margin: 0;
+            text-align: center; /* Nombre de la empresa centrado */
+        }
+
+        /* Secciones del Formulario (Tarjetas) */
+        .form-section {
+            background-color: #ffffff; /* Fondo blanco para las tarjetas */
+            border: 1px solid #e0f7fa; /* Borde turquesa muy discreto */
+            border-radius: 10px; /* Bordes redondeados */
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Sombra sutil para las tarjetas */
+        }
+
+        .form-section h2 {
+            color: #008080; /* Color turquesa para los títulos de sección */
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Campos del Formulario */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group input[type="date"],
+        .form-group input[type="time"],
+        .form-group select,
+        .form-group textarea {
+            width: calc(100% - 20px); /* Ajuste para padding */
+            padding: 12px;
+            border: 1px solid #b2ebf2; /* Borde turquesa claro */
+            border-radius: 8px; /* Bordes redondeados */
+            font-family: "Book Antiqua", Georgia, serif;
+            font-size: 1em;
+            box-sizing: border-box; /* Incluir padding y borde en el ancho */
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #008080; /* Borde turquesa oscuro al enfocar */
+            outline: none;
+        }
+
+        .form-group textarea {
+            resize: vertical; /* Permitir redimensionar verticalmente */
+            min-height: 80px;
+        }
+
+        /* Checklist de Mantenimiento */
+        .checklist-item {
+            display: flex;
+            flex-direction: column; /* Apilar elementos verticalmente */
+            align-items: flex-start; /* Alinear contenido a la izquierda */
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 1px dashed #e0f7fa; /* Separador sutil */
+        }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
+        .checklist-item label {
+            width: 100%; /* La etiqueta ocupa todo el ancho */
+            margin-bottom: 10px; /* Espacio debajo de la etiqueta */
+            margin-right: 0; /* Eliminar margen derecho */
+            font-weight: bold; /* Hacer la etiqueta más prominente */
+            color: #333;
+        }
+
+        .checklist-options {
+            display: flex;
+            gap: 10px;
+            width: 100%; /* Las opciones ocupan todo el ancho */
+            justify-content: flex-start; /* Alinear botones a la izquierda */
+            margin-bottom: 10px; /* Espacio debajo de las opciones */
+            margin-right: 0; /* Eliminar margen derecho */
+        }
+
+        .checklist-options button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 20px; /* Botones más redondeados */
+            font-family: "Book Antiqua", Georgia, serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .checklist-options button.bueno {
+            background-color: #4CAF50; /* Verde bandera */
+            color: white;
+        }
+
+        .checklist-options button.malo {
+            background-color: #F44336; /* Rojo bandera */
+            color: white;
+        }
+
+        .checklist-options button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .checklist-options button.active {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px #008080, 0 5px 10px rgba(0, 0, 0, 0.3); /* Resaltado turquesa */
+        }
+
+        .checklist-observation {
+            width: 100%; /* El campo de observación ocupa todo el ancho */
+        }
+
+        .checklist-observation textarea {
+            width: calc(100% - 20px); /* Ajuste para padding, asegurar que ocupe el ancho completo */
+            min-height: 60px;
+            margin-top: 0; /* Eliminar margen superior, el espacio ya está manejado por el margen inferior de las opciones */
+        }
+
+        /* Fotos del Vehículo */
+        .photo-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .photo-controls button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #008080;
+            color: white;
+            font-family: "Book Antiqua", Georgia, serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .photo-controls button:hover {
+            background-color: #006666;
+            transform: translateY(-2px);
+        }
+
+        .photo-upload-area {
+            border: 2px dashed #b2ebf2; /* Borde punteado turquesa */
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+            margin-bottom: 15px; /* Espacio debajo del área de carga */
+        }
+
+        .photo-upload-area:hover {
+            border-color: #008080;
+        }
+
+        #photo-input {
+            display: none; /* Ocultar el input de archivo por defecto */
+        }
+
+        .photo-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .photo-preview-item {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .photo-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .photo-delete-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(244, 67, 54, 0.8); /* Rojo semitransparente */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .photo-delete-button:hover {
+            background-color: #D32F2F; /* Rojo más oscuro al hover */
+        }
+
+        /* Estilos para la cámara */
+        #cameraStreamContainer {
+            display: none; /* Oculto por defecto */
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            border: 2px solid #b2ebf2;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #f8ffff;
+        }
+
+        #cameraStream {
+            width: 100%;
+            max-width: 400px; /* Tamaño máximo para el video de la cámara */
+            height: auto;
+            border-radius: 8px;
+            background-color: #000;
+            margin-bottom: 15px;
+        }
+
+        #cameraControls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #cameraCanvas {
+            display: none; /* El canvas es para capturar, no para mostrar */
+        }
+
+        /* Botón de Guardado */
+        .submit-button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button[type="submit"] {
+            background-color: #008080; /* Turquesa principal */
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px; /* Bordes redondeados */
+            font-family: "Book Antiqua", Georgia, serif;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Sombra destacada */
+        }
+
+        button[type="submit"]:hover {
+            background-color: #006666; /* Turquesa más oscuro al hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Mensajes de Validación/Confirmación */
+        .message-box {
+            background-color: #e0f7fa; /* Fondo turquesa claro */
+            color: #008080; /* Texto turquesa oscuro */
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
+            display: none; /* Oculto por defecto */
+        }
+
+        .message-box.success {
+            background-color: #e8f5e9; /* Verde claro para éxito */
+            color: #2e7d32; /* Verde oscuro */
+        }
+
+        .message-box.error {
+            background-color: #ffebee; /* Rojo claro para error */
+            color: #c62828; /* Rojo oscuro */
+        }
+
+        /* Indicador de carga */
+        #loadingIndicator {
+            display: none; /* Oculto por defecto */
+            margin-top: 10px;
+            color: #008080;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 20px;
+            }
+            header h1 {
+                font-size: 1.8em;
+            }
+            .form-section h2 {
+                font-size: 1.5em;
+            }
+            .checklist-options {
+                margin-top: 10px;
+                margin-bottom: 10px;
+                margin-right: 0;
+                width: 100%; /* Ocupar todo el ancho */
+                justify-content: center; /* Centrar botones si hay espacio */
+            }
+            .checklist-observation {
+                width: 100%;
+            }
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                width: 100%; /* Ajustar ancho completo */
+            }
+            #cameraStream {
+                max-width: 100%; /* Asegurar que el video de la cámara sea responsive */
+            }
+        }
+
+        @media (max-width: 480px) {
+            header img {
+                max-width: 150px;
+            }
+            header h1 {
+                font-size: 1.5em;
+            }
+            .form-section h2 {
+                font-size: 1.3em;
+            }
+            .checklist-options button {
+                padding: 8px 12px;
+                font-size: 0.9em;
+            }
+            button[type="submit"] {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+            .photo-controls button {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="https://i.ibb.co/mFt3rHjJ/panchos-logo2024.png" alt="Logo de Panchos Deli Market">
+            <h1>PANCHOS DELI MARKET</h1>
+        </header>
+
+        <form id="maintenanceForm">
+            <div class="form-section">
+                <h2>1. Información del Vehículo 🚗</h2>
+                <div class="form-group">
+                    <label for="vehicleType">Tipo de vehículo:</label>
+                    <select id="vehicleType" name="vehicleType" required>
+                        <option value="">Seleccione...</option>
+                        <option value="Van">Van</option>
+                        <option value="Tornado">Tornado</option>
+                        <option value="Nissan">Nissan</option>
+                        <option value="Isuzu">Isuzu</option>
+                        <option value="Avanza">Avanza</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="plateNumber">Placa/Número:</label>
+                    <input type="text" id="plateNumber" name="plateNumber" required readonly>
+                </div>
+                <div class="form-group">
+                    <label for="date">Fecha:</label>
+                    <input type="date" id="date" name="date" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="mileage">Kilometraje:</label>
+                    <input type="number" id="mileage" name="mileage" required min="0">
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>2. Información del Conductor 👤</h2>
+                <div class="form-group">
+                    <label for="driverName">Nombre completo:</label>
+                    <input type="text" id="driverName" name="driverName" required>
+                </div>
+                <div class="form-group">
+                    <label for="position">Puesto:</label>
+                    <input type="text" id="position" name="position" required>
+                </div>
+                <div class="form-group">
+                    <label for="captureTime">Hora de captura:</label>
+                    <input type="time" id="captureTime" name="captureTime" readonly>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>3. Checklist de Mantenimiento</h2>
+
+                <h3>🔦 LUCES</h3>
+                <div class="checklist-group">
+                    <div class="checklist-item">
+                        <label>Luz baja:</label>
+                        <div class="checklist-options" data-item="luzBaja">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="luzBaja-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Luz reversa:</label>
+                        <div class="checklist-options" data-item="luzReversa">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="luzReversa-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Luz freno:</label>
+                        <div class="checklist-options" data-item="luzFreno">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="luzFreno-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Intermitentes:</label>
+                        <div class="checklist-options" data-item="intermitentes">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="intermitentes-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Luces traseras:</label>
+                        <div class="checklist-options" data-item="lucesTraseras">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="lucesTraseras-obs"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🧰 ACCESORIOS</h3>
+                <div class="checklist-group">
+                    <div class="checklist-item">
+                        <label>Extintor:</label>
+                        <div class="checklist-options" data-item="extintor">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="extintor-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Triángulos:</label>
+                        <div class="checklist-options" data-item="triangulos">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="triangulos-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Cinturón de seguridad:</label>
+                        <div class="checklist-options" data-item="cinturonSeguridad">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="cinturonSeguridad-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Parabrisas:</label>
+                        <div class="checklist-options" data-item="parabrisas">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="parabrisas-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Batería:</label>
+                        <div class="checklist-options" data-item="bateria">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="bateria-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Nivel de agua:</label>
+                        <div class="checklist-options" data-item="nivelAgua">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="nivelAgua-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Nivel de aceite:</label>
+                        <div class="checklist-options" data-item="nivelAceite">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="nivelAceite-obs"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🛞 NEUMÁTICOS</h3>
+                <div class="checklist-group">
+                    <div class="checklist-item">
+                        <label>Delanteros:</label>
+                        <div class="checklist-options" data-item="neumaticosDelanteros">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="neumaticosDelanteros-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Traseros:</label>
+                        <div class="checklist-options" data-item="neumaticosTraseros">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="neumaticosTraseros-obs"></textarea>
+                        </div>
+                    </div>
+                    <div class="checklist-item">
+                        <label>Alineado y balanceado:</label>
+                        <div class="checklist-options" data-item="alineadoBalanceado">
+                            <button type="button" class="bueno">Bueno</button>
+                            <button type="button" class="malo">Malo</button>
+                        </div>
+                        <div class="checklist-observation">
+                            <textarea placeholder="Observaciones..." name="alineadoBalanceado-obs"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <h3>🚘 CARROCERÍA</h3>
+                <div class="form-group">
+                    <textarea id="carBodyObservations" name="carBodyObservations" placeholder="Observaciones generales de la carrocería..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2>4. Fotos del Vehículo 📸</h2>
+                <div class="photo-controls">
+                    <button type="button" id="openCameraButton">Tomar Foto</button>
+                    <button type="button" id="uploadFileButton">Subir Archivo</button>
+                </div>
+
+                <div id="cameraStreamContainer">
+                    <video id="cameraStream" autoplay playsinline></video>
+                    <canvas id="cameraCanvas" style="display:none;"></canvas>
+                    <div id="cameraControls">
+                        <button type="button" id="capturePhotoButton">Capturar Foto</button>
+                        <button type="button" id="closeCameraButton" class="malo">Cerrar Cámara</button>
+                    </div>
+                </div>
+
+                <div class="photo-upload-area" id="fileUploadArea" style="display:none;">
+                    <p>Haz clic o arrastra imágenes aquí para subir</p>
+                    <input type="file" id="photo-input" accept="image/*" multiple>
+                </div>
+
+                <div id="photo-preview-container" class="photo-preview-container">
+                    </div>
+            </div>
+
+            <div class="submit-button-container">
+                <button type="submit" id="submitButton">Guardar Registro</button>
+                <div id="loadingIndicator">Cargando...</div>
+            </div>
+
+            <div id="messageBox" class="message-box"></div>
+        </form>
+    </div>
+
+    <script>
+        // URL de tu aplicación web de Google Apps Script
+        // ¡IMPORTANTE! Reemplaza esto con la URL que copiaste del Paso 3 de Apps Script.
+        const GOOGLE_SHEET_WEB_APP_URL = 'TU_URL_DE_APPS_SCRIPT_AQUI'; // Reemplaza con tu URL real
+
+        // Elementos del DOM
+        const form = document.getElementById('maintenanceForm');
+        const messageBox = document.getElementById('messageBox');
+        const submitButton = document.getElementById('submitButton');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const vehicleTypeSelect = document.getElementById('vehicleType');
+        const plateNumberInput = document.getElementById('plateNumber');
+
+        // Elementos de la cámara
+        const openCameraButton = document.getElementById('openCameraButton');
+        const uploadFileButton = document.getElementById('uploadFileButton');
+        const cameraStreamContainer = document.getElementById('cameraStreamContainer');
+        const cameraStream = document.getElementById('cameraStream');
+        const cameraCanvas = document.getElementById('cameraCanvas');
+        const capturePhotoButton = document.getElementById('capturePhotoButton');
+        const closeCameraButton = document.getElementById('closeCameraButton');
+        const fileUploadArea = document.getElementById('fileUploadArea');
+        const photoInput = document.getElementById('photo-input');
+        const photoPreviewContainer = document.getElementById('photo-preview-container');
+
+        let currentStream; // Para almacenar el stream de la cámara
+        let uploadedFiles = []; // Almacenar las URLs Base64 de las fotos
+
+        // --- Funciones de Utilidad ---
+
+        // Función para autocompletar fecha y hora
+        function setDateTime() {
+            const now = new Date();
+            const year = String(now.getFullYear());
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+
+            document.getElementById('date').value = `${year}-${month}-${day}`;
+            document.getElementById('captureTime').value = `${hours}:${minutes}`;
+        }
+
+        // Lógica para autocompletar el número de placa
+        const plateNumbers = {
+            "Nissan": "JR 69401",
+            "Tornado": "JX 91123",
+            "Avanza": "JSS 4862",
+            "Isuzu": "JY 19138",
+            "Van": "JG 43921"
+        };
+
+        vehicleTypeSelect.addEventListener('change', function() {
+            const selectedVehicle = this.value;
+            if (plateNumbers[selectedVehicle]) {
+                plateNumberInput.value = plateNumbers[selectedVehicle];
+            } else {
+                plateNumberInput.value = ''; // Limpiar si no hay una placa definida
+            }
+        });
+
+        // Función para añadir una vista previa de foto
+        function addPhotoPreview(dataUrl, fileIndex) {
+            const previewItem = document.createElement('div');
+            previewItem.classList.add('photo-preview-item');
+            previewItem.dataset.index = fileIndex; // Usar el índice del array
+
+            const img = document.createElement('img');
+            img.src = dataUrl;
+            img.alt = `Vista previa de foto ${fileIndex + 1}`;
+
+            const deleteButton = document.createElement('button');
+            deleteButton.classList.add('photo-delete-button');
+            deleteButton.innerHTML = '&times;'; // Símbolo de "x"
+            deleteButton.title = 'Eliminar foto';
+            deleteButton.addEventListener('click', function() {
+                const indexToDelete = parseInt(previewItem.dataset.index);
+                // Eliminar el archivo del array y el elemento del DOM
+                uploadedFiles.splice(indexToDelete, 1);
+                previewItem.remove();
+                // Reajustar los índices de los elementos restantes
+                photoPreviewContainer.querySelectorAll('.photo-preview-item').forEach((item, idx) => {
+                    item.dataset.index = idx;
+                });
+            });
+
+            previewItem.appendChild(img);
+            previewItem.appendChild(deleteButton);
+            photoPreviewContainer.appendChild(previewItem);
+        }
+
+        // --- Lógica de la Cámara ---
+
+        openCameraButton.addEventListener('click', async () => {
+            try {
+                // Ocultar el área de subir archivo y mostrar la cámara
+                fileUploadArea.style.display = 'none';
+                cameraStreamContainer.style.display = 'flex';
+
+                // Solicitar acceso a la cámara
+                currentStream = await navigator.mediaDevices.getUserMedia({ video: true });
+                cameraStream.srcObject = currentStream;
+                cameraStream.play();
+            } catch (err) {
+                console.error("Error al acceder a la cámara: ", err);
+                messageBox.classList.add('error');
+                // Mensaje de error más descriptivo
+                messageBox.innerHTML = `❌ Error al acceder a la cámara: ${err.name}.<br>
+                                        Asegúrate de:<br>
+                                        - Haber dado permisos al navegador.<br>
+                                        - Que ninguna otra aplicación (Zoom, Meet, etc.) esté usando la cámara.<br>
+                                        - Que la cámara esté conectada y funcionando correctamente.`;
+                messageBox.style.display = 'block';
+                cameraStreamContainer.style.display = 'none'; // Ocultar si hay error
+            }
+        });
+
+        capturePhotoButton.addEventListener('click', () => {
+            if (currentStream) {
+                // Asegurarse de que el canvas tenga el tamaño correcto
+                cameraCanvas.width = cameraStream.videoWidth;
+                cameraCanvas.height = cameraStream.videoHeight;
+                const context = cameraCanvas.getContext('2d');
+                context.drawImage(cameraStream, 0, 0, cameraCanvas.width, cameraCanvas.height);
+
+                // Obtener la imagen como Data URL (Base64)
+                const imageDataUrl = cameraCanvas.toDataURL('image/png'); // Puedes cambiar a 'image/jpeg' si prefieres
+
+                // Añadir la imagen capturada a la lista de archivos subidos
+                uploadedFiles.push(imageDataUrl);
+                addPhotoPreview(imageDataUrl, uploadedFiles.length - 1); // Añadir vista previa
+            } else {
+                messageBox.classList.add('error');
+                messageBox.innerHTML = '❌ La cámara no está activa. Haz clic en "Tomar Foto" primero.';
+                messageBox.style.display = 'block';
+            }
+        });
+
+        closeCameraButton.addEventListener('click', () => {
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop()); // Detener el stream de la cámara
+                cameraStream.srcObject = null;
+            }
+            cameraStreamContainer.style.display = 'none'; // Ocultar el contenedor de la cámara
+        });
+
+        // --- Lógica de Subida de Archivos ---
+
+        uploadFileButton.addEventListener('click', () => {
+            // Ocultar la cámara y mostrar el área de subir archivo
+            if (currentStream) {
+                currentStream.getTracks().forEach(track => track.stop());
+                cameraStream.srcObject = null;
+            }
+            cameraStreamContainer.style.display = 'none';
+            fileUploadArea.style.display = 'block';
+        });
+
+        photoInput.addEventListener('change', function(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        // Almacenar la Data URL (Base64) en lugar del objeto File
+                        uploadedFiles.push(e.target.result);
+                        addPhotoPreview(e.target.result, uploadedFiles.length - 1);
+                    };
+                    reader.readAsDataURL(file); // Leer el archivo como Data URL
+                }
+            }
+        });
+
+        // --- Lógica de Checklist (Bueno/Malo) ---
+        document.querySelectorAll('.checklist-options button').forEach(button => {
+            button.addEventListener('click', function() {
+                const parent = this.closest('.checklist-options');
+                parent.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // --- Lógica de Validación y Envío del Formulario ---
+        form.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            messageBox.style.display = 'none';
+            messageBox.classList.remove('success', 'error');
+            messageBox.textContent = '';
+
+            const requiredFields = [
+                'vehicleType', 'plateNumber', 'mileage', 'driverName', 'position'
+            ];
+            let allFieldsFilled = true;
+            let missingFields = [];
+
+            requiredFields.forEach(fieldId => {
+                const input = document.getElementById(fieldId);
+                if (!input.value.trim()) {
+                    allFieldsFilled = false;
+                    input.style.borderColor = '#F44336';
+                    if (input.previousElementSibling) {
+                        missingFields.push(input.previousElementSibling.textContent.replace(':', '').trim());
+                    } else if (input.placeholder) {
+                        missingFields.push(input.placeholder);
+                    } else {
+                        missingFields.push(fieldId);
+                    }
+                } else {
+                    input.style.borderColor = '#b2ebf2';
+                }
+            });
+
+            let allChecklistSelected = true;
+            document.querySelectorAll('.checklist-options').forEach(optionGroup => {
+                const selectedButton = optionGroup.querySelector('button.active');
+                const checklistLabel = optionGroup.closest('.checklist-item').querySelector('label');
+                if (!selectedButton) {
+                    allChecklistSelected = false;
+                    optionGroup.style.border = '1px solid #F44336';
+                    if (checklistLabel) {
+                        missingFields.push(checklistLabel.textContent.replace(':', '').trim());
+                    } else {
+                        missingFields.push(optionGroup.dataset.item + ' (selección)');
+                    }
+                } else {
+                    optionGroup.style.border = 'none';
+                }
+            });
+
+            if (!allFieldsFilled || !allChecklistSelected) {
+                messageBox.classList.add('error');
+                let errorMessage = 'Por favor, complete todos los campos obligatorios y seleccione una opción (Bueno/Malo) para cada elemento del checklist.';
+                if (missingFields.length > 0) {
+                    errorMessage += `<br>Faltan los siguientes elementos: <strong>${[...new Set(missingFields)].join(', ')}</strong>.`;
+                }
+                messageBox.innerHTML = errorMessage;
+                messageBox.style.display = 'block';
+                return;
+            }
+
+            // Deshabilitar botón y mostrar carga
+            submitButton.disabled = true;
+            loadingIndicator.style.display = 'block';
+
+            const formData = new FormData(form);
+
+            // Añadir los estados de Bueno/Malo al formData
+            document.querySelectorAll('.checklist-options').forEach(optionGroup => {
+                const selectedButton = optionGroup.querySelector('button.active');
+                const dataItem = optionGroup.dataset.item;
+                if (selectedButton) {
+                    formData.append(`${dataItem}-estado`, selectedButton.textContent);
+                } else {
+                    formData.append(`${dataItem}-estado`, '');
+                }
+            });
+
+            // Añadir las fotos Base64 al formData como una sola cadena separada
+            if (uploadedFiles.length > 0) {
+                formData.append('photosData', uploadedFiles.join('|||')); // Unir con un separador único
+            } else {
+                formData.append('photosData', ''); // Enviar vacío si no hay fotos
+            }
+
+            try {
+                const response = await fetch(GOOGLE_SHEET_WEB_APP_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.result === 'success') {
+                    messageBox.classList.add('success');
+                    messageBox.innerHTML = '✅ Registro guardado exitosamente.';
+                    // Resetear formulario
+                    form.reset();
+                    photoPreviewContainer.innerHTML = '';
+                    uploadedFiles = [];
+                    document.querySelectorAll('.checklist-options button').forEach(btn => btn.classList.remove('active'));
+                    setDateTime();
+                    // Asegurarse de ocultar la cámara si estaba abierta
+                    if (currentStream) {
+                        currentStream.getTracks().forEach(track => track.stop());
+                        cameraStream.srcObject = null;
+                    }
+                    cameraStreamContainer.style.display = 'none';
+                    fileUploadArea.style.display = 'none'; // Ocultar el área de subida de archivos también
+                } else {
+                    messageBox.classList.add('error');
+                    messageBox.innerHTML = `❌ Error al guardar: ${data.message || 'Ha ocurrido un error desconocido.'}`;
+                }
+            } catch (error) {
+                console.error('Error al enviar el formulario:', error);
+                messageBox.classList.add('error');
+                messageBox.innerHTML = '❌ Error de conexión. Asegúrate de que la URL del script sea correcta y el script esté desplegado.';
+            } finally {
+                submitButton.disabled = false;
+                loadingIndicator.style.display = 'none';
+            }
+        });
+
+        // Inicializar fecha y hora al cargar
+        setDateTime();
+    </script>
+</body>
+</html>
